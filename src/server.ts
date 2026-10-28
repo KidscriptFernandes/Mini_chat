@@ -9,7 +9,9 @@ async function bootstrap() {
       port: env.PORT,
       host: env.HOST,
     });
+    const host = env.HOST === '0.0.0.0' ? 'localhost' : env.HOST;
     console.log(`Server listening on http://${env.HOST}:${env.PORT}`);
+    console.log(`Swagger documentation: http://${host}:${env.PORT}/docs`);
   } catch (error) {
     console.error('Failed to start server:', error);
     process.exit(1);
