@@ -10,7 +10,7 @@ const envSchema = z.object({
   JWT_SECRET: z
     .string()
     .min(16, 'JWT_SECRET must have at least 16 characters')
-    .default('super-secret-jwt-key-change-in-production-123456'),
+    .default('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzkzMjY3NDY5LCJleHAiOjE3OTMyNzEwNjl9.RujQ-mZVDgWJw4DpHrZBG7j8YsRoZmTCbnjvoquDOhE'),
   DATABASE_HOST: z.string().default('localhost'),
   DATABASE_PORT: z.coerce.number().default(3306),
   DATABASE_USER: z.string().default('root'),
