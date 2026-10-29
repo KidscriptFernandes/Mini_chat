@@ -13,8 +13,8 @@ export class DrizzleUsersRepository implements UsersRepository {
       senha: row.senha,
       idade: row.idade,
       endereco: row.endereco,
-      createdAt: row.createdAt,
-      updatedAt: row.updatedAt,
+      createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
+      updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : String(row.updatedAt),
     });
   }
 
@@ -27,8 +27,8 @@ export class DrizzleUsersRepository implements UsersRepository {
       senha: data.senha,
       idade: data.idade,
       endereco: data.endereco,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
+      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
+      updatedAt: data.updatedAt ? new Date(data.updatedAt) : undefined,
     });
 
     return user;
@@ -61,7 +61,7 @@ export class DrizzleUsersRepository implements UsersRepository {
         senha: data.senha,
         idade: data.idade,
         endereco: data.endereco,
-        updatedAt: data.updatedAt,
+        updatedAt: data.updatedAt ? new Date(data.updatedAt) : new Date(),
       })
       .where(eq(users.id, data.id));
 

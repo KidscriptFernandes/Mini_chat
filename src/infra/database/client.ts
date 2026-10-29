@@ -37,11 +37,11 @@ export async function initializeDatabase() {
       id VARCHAR(36) PRIMARY KEY,
       nome VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL UNIQUE,
-      senha VARCHAR(255) NOT NULL,
+      senha TEXT NOT NULL,
       idade INT NOT NULL,
       endereco TEXT NOT NULL,
-      created_at VARCHAR(50) NOT NULL,
-      updated_at VARCHAR(50) NOT NULL
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
   `);
 
@@ -51,7 +51,7 @@ export async function initializeDatabase() {
       sender_id VARCHAR(36) NOT NULL,
       receiver_id VARCHAR(36) NULL,
       content TEXT NOT NULL,
-      created_at VARCHAR(50) NOT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       INDEX idx_sender_receiver (sender_id, receiver_id),
       CONSTRAINT fk_messages_sender FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
       CONSTRAINT fk_messages_receiver FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE

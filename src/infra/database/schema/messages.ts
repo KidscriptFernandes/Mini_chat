@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, text } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, text, timestamp } from 'drizzle-orm/mysql-core';
 import { users } from './users.js';
 
 export const messages = mysqlTable('messages', {
@@ -10,7 +10,7 @@ export const messages = mysqlTable('messages', {
     onDelete: 'cascade',
   }),
   content: text('content').notNull(),
-  createdAt: varchar('created_at', { length: 50 }).notNull().$defaultFn(() => new Date().toISOString()),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export type MessageTable = typeof messages.$inferSelect;

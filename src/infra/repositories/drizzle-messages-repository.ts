@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull, or } from 'drizzle-orm';
+import { and, asc, eq, isNull, or } from 'drizzle-orm';
 import { db } from '../database/client.js';
 import { messages, MessageTable } from '../database/schema/messages.js';
 import { Message } from '../../domain/entities/message.js';
@@ -11,7 +11,7 @@ export class DrizzleMessagesRepository implements MessagesRepository {
       senderId: row.senderId,
       receiverId: row.receiverId,
       content: row.content,
-      createdAt: row.createdAt,
+      createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
     });
   }
 
@@ -22,7 +22,7 @@ export class DrizzleMessagesRepository implements MessagesRepository {
       senderId: data.senderId,
       receiverId: data.receiverId ?? null,
       content: data.content,
-      createdAt: data.createdAt,
+      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
     });
 
     return message;
@@ -38,7 +38,7 @@ export class DrizzleMessagesRepository implements MessagesRepository {
           and(eq(messages.senderId, user2Id), eq(messages.receiverId, user1Id))
         )
       )
-      .orderBy(messages.createdAt);
+      .orderBy(asc(messages.createdAt));
 
     return rows.map((row) => this.toDomain(row));
   }
@@ -48,9 +48,9 @@ export class DrizzleMessagesRepository implements MessagesRepository {
       .select()
       .from(messages)
       .where(isNull(messages.receiverId))
-      .orderBy(desc(messages.createdAt))
+      .orderBy(asc(messages.createdAt))
       .limit(limit);
 
-    return rows.reverse().map((row) => this.toDomain(row));
+    return rows.map((row) => this.toDomain(row));
   }
 }
