@@ -21,11 +21,13 @@ export async function usersRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Users'],
+        summary: 'Busca o perfil do usuário logado.',
+        description: 'Retorna o perfil completo do usuário autenticado.',
         security: [{ bearerAuth: [] }],
         response: {
           200: z.object({
             user: userResponseSchema,
-          }),
+          }).describe('Perfil do usuário logado.'),
         },
       },
     },
@@ -45,12 +47,14 @@ export async function usersRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Users'],
+        summary: 'Atualiza o perfil do usuário logado.',
+        description: 'Atualiza o perfil do usuário logado e retorna o perfil atualizado.',
         security: [{ bearerAuth: [] }],
         body: updateUserBodySchema,
         response: {
           200: z.object({
             user: userResponseSchema,
-          }),
+          }).describe('Perfil atualizado do usuário logado.'),
         },
       },
     },
@@ -71,11 +75,13 @@ export async function usersRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Users'],
+        summary: 'Lista todos os usuários.',
+        description: 'Retorna uma lista com todos os usuários do sistema.',
         security: [{ bearerAuth: [] }],
         response: {
           200: z.object({
             users: z.array(userResponseSchema),
-          }),
+          }).describe('Lista de usuários cadastrados.'),
         },
       },
     },

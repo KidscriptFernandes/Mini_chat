@@ -22,12 +22,14 @@ export async function messagesRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Messages'],
+        summary: 'Envia uma mensagem.',
+        description: 'Envia uma mensagem para outro usuário.',
         security: [{ bearerAuth: [] }],
         body: sendMessageBodySchema,
         response: {
           201: z.object({
             message: messageResponseSchema,
-          }),
+          }).describe('Mensagem enviada com sucesso.'),
         },
       },
     },
@@ -49,12 +51,14 @@ export async function messagesRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Messages'],
+        summary: 'Lista as mensagens do chat.',
+        description: 'Lista as mensagens do chat entre dois usuários.',
         security: [{ bearerAuth: [] }],
         querystring: getMessagesQuerySchema,
         response: {
           200: z.object({
             messages: z.array(messageResponseSchema),
-          }),
+          }).describe('Lista de mensagens do chat.'),
         },
       },
     },
@@ -75,12 +79,14 @@ export async function messagesRoutes(app: FastifyInstance) {
       onRequest: [authGuard],
       schema: {
         tags: ['Messages'],
+        summary: 'Busca o histórico de mensagens.',
+        description: 'Busca o histórico de mensagens entre o usuário autenticado e outro usuário.',
         security: [{ bearerAuth: [] }],
         params: getMessagesParamsSchema,
         response: {
           200: z.object({
             messages: z.array(messageResponseSchema),
-          }),
+          }).describe('Lista de mensagens do chat.'),
         },
       },
     },

@@ -19,11 +19,13 @@ export async function authRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['Auth'],
+        summary: 'Registra um novo usuário.',
+        description: 'Registra um novo usuário no sistema.',
         body: registerBodySchema,
         response: {
           201: z.object({
             user: userResponseSchema,
-          }),
+          }).describe('Usuário registrado com sucesso.'),
         },
       },
     },
@@ -40,12 +42,14 @@ export async function authRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['Auth'],
+        summary: 'Autentica um usuário.',
+        description: 'Fazer login.',
         body: authenticateBodySchema,
         response: {
           200: z.object({
             token: z.string(),
             user: userResponseSchema,
-          }),
+          }).describe('Usuário autenticado com sucesso.'),
         },
       },
     },
